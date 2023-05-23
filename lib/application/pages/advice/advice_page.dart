@@ -1,6 +1,7 @@
 import 'package:advise/application/core/services.dart';
 import 'package:advise/application/pages/advice/widgets/advice_field.dart';
 import 'package:advise/application/pages/advice/widgets/custom_button.dart';
+import 'package:advise/application/pages/advice/widgets/error_message.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -30,9 +31,10 @@ class AdvicerPage extends StatelessWidget {
             children: const [
               Expanded(
                   child: Center(
-                child: AdviseField(
+                child: ErrorMessage(message: 'Oops, Something went wrong! ',)
+                    /* AdviseField(
                   advise: "Fred will be great software Developer",
-                ),
+                ), */
                 /* child: CircularProgressIndicator(
                   color: themeData.colorScheme.secondary,
                 ) */
