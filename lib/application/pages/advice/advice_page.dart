@@ -1,10 +1,25 @@
 import 'package:advise/application/core/services.dart';
+import 'package:advise/application/pages/advice/cubit/advicer_cubit.dart';
 import 'package:advise/application/pages/advice/widgets/advice_field.dart';
 import 'package:advise/application/pages/advice/widgets/custom_button.dart';
 import 'package:advise/application/pages/advice/widgets/error_message.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
+
+class AdvicePageWrapperProvider extends StatelessWidget{
+  const AdvicePageWrapperProvider({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => AdvicerCubit(),
+      child: AdvicerPage(),
+    );
+  }
+
+}
 
 class AdvicerPage extends StatelessWidget {
   const AdvicerPage({Key? key}) : super(key: key);
@@ -28,21 +43,30 @@ class AdvicerPage extends StatelessWidget {
         body: Padding(
           padding: EdgeInsets.symmetric(horizontal: 50),
           child: Column(
-            children: const [
+            children: [
               Expanded(
                   child: Center(
-                child: ErrorMessage(message: 'Oops, Something went wrong! ',)
-                    /* AdviseField(
-                  advise: "Fred will be great software Developer",
-                ), */
-                /* child: CircularProgressIndicator(
-                  color: themeData.colorScheme.secondary,
-                ) */
-
-                /* Text(
-                  "Your advice is waiting for you.",
-                  style: themeData.textTheme.headline1,
-                ) */
+                    child: BlocBuilder<AdvicerCubit, AdvicerCubitState>(
+                      builder: (context, state) {
+                        if (state is AdvicerInitial) {
+                          return Text(
+                            'Your Advice is waiting for you!',
+                            style: themeData.textTheme.displayLarge,
+                          );
+                        } else if (state is AdvicerStateLoading) {
+                          return CircularProgressIndicator(
+                            color: themeData.colorScheme.secondary,
+                          );
+                        } else if (state is AdvicerStateLoaded) {
+                          return AdviseField(
+                            advise: state.advice,
+                          );
+                        } else if (state is AdvicerStateError) {
+                          return ErrorMessage(message: state.message);
+                        }
+                        return const SizedBox();
+                      },
+                    ),
               )),
               SizedBox(
                 height: 200,
