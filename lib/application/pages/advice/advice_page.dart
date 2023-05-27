@@ -29,7 +29,7 @@ class AdvicerPage extends StatelessWidget {
     final themeData = Theme.of(context);
     return Scaffold(
         appBar: AppBar(
-          title: Text("Adviser", style: themeData.textTheme.headline1),
+          title: Text("Adviser App", style: themeData.textTheme.headline1),
           centerTitle: true,
           actions: [
             Switch(
