@@ -1,6 +1,12 @@
+import 'package:advise/data/repositories/advice_repo_impl.dart';
+import 'package:advise/domain/entities/advice_entity.dart';
+import 'package:advise/domain/failures/failures.dart';
+import 'package:dartz/dartz.dart';
+
 class AdviceUseCases{
-  Future<String> getAdvice() async{
-    await Future.delayed(Duration(seconds: 3), (){});
-    return 'Fake advice o test usecases';
+  final adviceRepo = AdviceRepoImpl();
+
+  Future<Either<Failure, AdviceEntity>> getAdvice() async{
+     return adviceRepo.getAdviceFromDatasource();
   }
 }
