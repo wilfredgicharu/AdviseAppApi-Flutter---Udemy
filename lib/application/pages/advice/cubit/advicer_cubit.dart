@@ -8,9 +8,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 part 'advicer_state.dart';
 
 class AdvicerCubit extends Cubit<AdvicerCubitState> {
-  AdvicerCubit() : super(AdvicerInitial());
+  final AdviceUseCases adviceUseCases;
+  AdvicerCubit({required this.adviceUseCases}) : super(AdvicerInitial());
 
-  final AdviceUseCases adviceUseCases = AdviceUseCases();
 
   void adviceRequested() async {
     emit(AdvicerStateLoading());
