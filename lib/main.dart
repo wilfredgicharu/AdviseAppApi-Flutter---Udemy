@@ -6,8 +6,12 @@ import 'package:provider/provider.dart';
 import 'application/core/services.dart';
 import 'application/pages/advice/advice_page.dart';
 import 'domain/theme.dart';
+import 'injection.dart' as di;
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await di.init();
+
   runApp(ChangeNotifierProvider(create: (context) => ThemeService(),
     child: const MyApp(),
   ));

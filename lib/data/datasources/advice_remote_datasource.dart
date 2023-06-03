@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
+import '../exceptions/exceptions.dart';
 import '../model/advice_model.dart';
 
 abstract class AdviceRemoteDatasource {
@@ -13,7 +14,9 @@ abstract class AdviceRemoteDatasource {
 }
 
 class AdviceRemoteDatasourceImpl implements AdviceRemoteDatasource {
-  final client = http.Client();
+
+  final http.Client client;
+  AdviceRemoteDatasourceImpl({required this.client});
 
   @override
   Future<AdviceModel> getRandomAdviceFromApi() async {
@@ -23,12 +26,12 @@ class AdviceRemoteDatasourceImpl implements AdviceRemoteDatasource {
         'content-type': 'application/json ',
       },
     );
-    // if (response.statusCode != 200) {
-    //   throw ServerException();
-    // } else {
+    if (response.statusCode != 200) {
+      throw ServerException();
+    } else {
       final responseBody = json.decode(response.body);
+      return AdviceModel.fromJson(responseBody);
+    }
 
-    // }
-    return AdviceModel.fromJson(responseBody);
   }
 }
